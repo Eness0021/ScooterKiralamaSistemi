@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class KiralamaSistemi {
+public class KiralamaSistemi{
     List<Arac> araclar = new ArrayList<>();
 
 
@@ -9,17 +9,25 @@ public class KiralamaSistemi {
         araclar.add(arac);
     }
 
-    public void aracKirala(String id, int sure){
+    public void aracKirala(String id, int sure) throws YetersizSarjException{
         for (Arac a : araclar){
             if (a.aracId.equalsIgnoreCase(id)){
-                if(a.getSarjYuzdesi() > 0 && !a.KiradaMi()){
+                if(a.getSarjYuzdesi() < 20){
+                    throw new YetersizSarjException("Hata : Aracın şarjı çok düşük");
+                }
+                if(!a.KiradaMi()){
                     System.out.println("Araç kiralandı");
                     System.out.print("Ücret : " + a.ucretHesapla(sure));
                     System.out.println();
                     a.setKiradaMi(true);
                 }
+                else {
+                    System.out.println("Hata : Araç zaten kirada");
+                }
+                return;
             }
         }
+        System.out.println("Hata : Araç bulunamadı");
     }
 
     public void tumAraclariListele(){

@@ -1,8 +1,9 @@
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws YetersizSarjException {
         Scanner scanner = new Scanner(System.in);
         KiralamaSistemi sistem = new KiralamaSistemi();
 
@@ -18,39 +19,27 @@ public class Main {
                 4 - Araç kirala
                 5 - Çıkış
                 """);
-            System.out.print("Seçeneğiniz : ");
-            secenek = scanner.nextInt();
-            scanner.nextLine();
+            secenek = inputNumber(scanner, "Seçeneğiniz : ");
 
             switch (secenek){
-                case 1 ->{
-                    sistem.tumAraclariListele();
-                }
+                case 1 ->sistem.tumAraclariListele();
                 case 2 ->{
                     String id;
                     System.out.println("--- Araç Ekleme ---");
-
-
-
-                    System.out.println("""
+                    int tur = inputNumber(scanner, """
                         --- Eklemek istediğiniz Scooter Türü ---
                         1 - Standart Scooter
                         2 - Pro Scooter
                         """);
-                    int tur = scanner.nextInt();
                     if(tur == 1){
-                        scanner.nextLine();
-                        System.out.print("Arac ID : ");
-                        id = scanner.nextLine();
-                        if (sistem.idKontrol(id)){break;};
+                        id = inputString(scanner, "Araç ID : ");
+                        if (sistem.idKontrol(id)){break;}
                         sistem.aracEkle(new StandartScooter(id,100,"Merkez",false));
                         System.out.println("Araç başarıyla eklendi");
                     }
                     else if (tur == 2) {
-                        scanner.nextLine();
-                        System.out.print("Arac ID : ");
-                        id = scanner.nextLine();
-                        if (sistem.idKontrol(id)){break;};
+                        id = inputString(scanner, "Araç ID : ");
+                        if (sistem.idKontrol(id)){break;}
                         sistem.aracEkle(new ProScooter(id,100,"Merkez",false));
                         System.out.println("Araç başarıyla eklendi");
                     }
@@ -61,20 +50,22 @@ public class Main {
 
                 case 3 ->{
                     System.out.println("Sorgulamak istediğiniz aracın ID si");
-                    System.out.print("ID : ");
-                    String id = scanner.nextLine();
+                    String id = inputString(scanner, "ID : ");
                     sistem.musaitlikSorgulama(id);
                 }
 
                 case 4 ->{
                     System.out.println("--- Araç Kiralama ---");
-                    System.out.print("Kiralamak istediğiniz aracın ID : ");
-                    String id = scanner.nextLine();
+                    String id = inputString(scanner, "Kiralamak istediğiniz aracın ID : ");
                     if (!sistem.musaitlikSorgulama(id)) break;
-                    System.out.print("Kaç dakika sürmek istiyorsunuz : ");
-                    int sure = scanner.nextInt();
-                    scanner.nextLine();
-                    sistem.aracKirala(id,sure);
+                    int sure = inputNumber(scanner, "Kaç dakika sürmek istiyorsunuz : ");
+
+                    try {
+                        sistem.aracKirala(id,sure);
+                    }
+                    catch (YetersizSarjException e){
+                        System.out.println("Hata : "+ e.getMessage());
+                    }
 
                 }
 
@@ -86,4 +77,38 @@ public class Main {
 
 
     }
+
+    public static int inputNumber(Scanner scanner, String mesaj){
+        while (true){
+            try {
+                System.out.print(mesaj);
+                int deger;
+                deger = scanner.nextInt();
+                scanner.nextLine();
+                return deger;
+            }
+            catch (InputMismatchException e){
+                System.err.println("Geçersiz karakter !");
+                scanner.nextLine();
+            }
+        }
+    }
+
+
+    public static String inputString(Scanner scanner, String mesaj){
+        while (true){
+            try {
+                System.out.print(mesaj);
+                String veri;
+                veri = scanner.nextLine();
+                return veri;
+            }
+            catch (InputMismatchException e){
+                System.err.println("Geçersiz karakter !");
+            }
+        }
+    }
+
+
+
 }
