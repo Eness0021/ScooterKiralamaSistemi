@@ -22,10 +22,9 @@ public class StandartScooter extends Arac implements ISarjEdilebilir{
 
     @Override
     public String toString() {
-        return "StandartScooter{" +
-                "aracId='" + aracId + '\'' +
-                ", sarjYuzdesi=" + sarjYuzdesi +
-                ", konum='" + konum + '\'' +
-                '}';
+        return "StandartScooter " +
+                "aracId = '" + aracId + '\'' +
+                ", sarjYuzdesi = " + sarjYuzdesi +
+                ", konum = '" + konum + '\'';
     }
 }

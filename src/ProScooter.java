@@ -23,10 +23,9 @@ public class ProScooter extends Arac implements ISarjEdilebilir{
 
     @Override
     public String toString() {
-        return "ProScooter{" +
-                "aracId='" + aracId + '\'' +
-                ", sarjYuzdesi=" + sarjYuzdesi +
-                ", konum='" + konum + '\'' +
-                '}';
+        return "ProScooter " +
+                "aracId = '" + aracId + '\'' +
+                ", sarjYuzdesi = " + sarjYuzdesi +
+                ", konum = '" + konum + '\'';
     }
 }
