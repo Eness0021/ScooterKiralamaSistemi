@@ -1,7 +1,7 @@
 public class ProScooter extends Arac implements ISarjEdilebilir{
-    private int acilisUcreti = 10;
-    private int dkBasiUcret = 4;
-    private int maxHiz = 50;
+    private final int acilisUcreti = 10;
+    private final int dkBasiUcret = 4;
+    private final int maxHiz = 50;
 
     public ProScooter(String aracId, int sarjYuzdesi, String konum, boolean kiradaMi) {
         super(aracId, sarjYuzdesi, konum, kiradaMi);

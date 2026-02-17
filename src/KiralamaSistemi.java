@@ -1,7 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +18,27 @@ public class KiralamaSistemi{
 
 
     public void aracEkle(Arac arac){
-        araclar.add(arac);
+        String sql = "INSERT INTO araclar(arac_id, tip, sarj_yuzdesi, konum, kirada_mi) VALUES(?,?,?,?,?)";
+
+
+        try (Connection connection = VeriTabaniYoneticisi.baglan();
+        PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+
+            pstmt.setString(1, arac.getAracId());
+            pstmt.setString(2, (arac instanceof ProScooter)? "Pro" : "Standart");
+            pstmt.setInt(3, arac.sarjYuzdesi);
+            pstmt.setString(4, arac.getKonum());
+            pstmt.setBoolean(5, arac.KiradaMi());
+
+            pstmt.executeUpdate();
+            System.out.println("Araç veritabanına kaydedildi");
+
+            araclar.add(arac);
+        }
+        catch (SQLException e){
+            System.err.println("Araç eklenirken veritabanı hatası : " + e.getMessage());
+        }
     }
 
     public void aracKirala(String id, int sure) throws YetersizSarjException{
@@ -76,6 +98,36 @@ public class KiralamaSistemi{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     public void verileriKaydet() {
         JsonArray jsonList = new JsonArray();
 
@@ -100,8 +152,10 @@ public class KiralamaSistemi{
             System.err.println("Kaydetme hatası : " + e.getMessage());
         }
     }
+    */
 
 
+    /*
     public void verileriYukle(){
         File file = new File("scooters.json");
         if(!file.exists()) return;
@@ -131,7 +185,7 @@ public class KiralamaSistemi{
 
         }
     }
-
+    */
 
 
 

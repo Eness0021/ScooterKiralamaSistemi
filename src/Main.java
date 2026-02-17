@@ -7,8 +7,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         KiralamaSistemi sistem = new KiralamaSistemi();
 
+        VeriTabaniYoneticisi.tabloOLustur();
 
-        sistem.verileriYukle();
         int secenek = 0;
         while (secenek != 5){
             System.out.println("""
@@ -21,10 +21,7 @@ public class Main {
             secenek = inputNumber(scanner, "Seçeneğiniz : ");
 
             switch (secenek){
-                case 1 ->{
-
-                    sistem.tumAraclariListele();
-                }
+                case 1 ->sistem.tumAraclariListele();
                 case 2 ->{
                     String id;
                     System.out.println("--- Araç Ekleme ---");
@@ -69,7 +66,6 @@ public class Main {
                         System.out.println("Hata : "+ e.getMessage());
                     }
                 }
-                case 5->sistem.verileriKaydet();
 
 
 
