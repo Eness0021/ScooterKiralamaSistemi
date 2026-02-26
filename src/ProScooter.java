@@ -22,6 +22,14 @@ public class ProScooter extends Arac implements ISarjEdilebilir{
     }
 
     @Override
+    public String getAracTipi(){
+        return "Pro";
+    }
+
+
+
+
+    @Override
     public String toString() {
         return "ProScooter " +
                 "aracId = '" + aracId + '\'' +

@@ -14,50 +14,35 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class KiralamaSistemi{
-    List<Arac> araclar = VeriTabaniYoneticisi.verileriYukle();
+
+    private final IVeriKaynagi veriKaynagi;
+    private List<Arac> araclar;
+
+    public KiralamaSistemi(IVeriKaynagi veriKaynagi){
+        this.veriKaynagi = veriKaynagi;
+        this.araclar = veriKaynagi.verileriYukle();
+    }
+
 
 
     public void aracEkle(Arac arac){
-        String sql = "INSERT INTO araclar(arac_id, tip, sarj_yuzdesi, konum, durum) VALUES(?,?,?,?,?)";
-
-
-        try (Connection connection = VeriTabaniYoneticisi.baglan();
-        PreparedStatement pstmt = connection.prepareStatement(sql)){
-
-
-            pstmt.setString(1, arac.getAracId());
-            pstmt.setString(2, (arac instanceof ProScooter)? "Pro" : "Standart");
-            pstmt.setInt(3, arac.sarjYuzdesi);
-            pstmt.setString(4, arac.getKonum());
-            pstmt.setString(5,arac.getDurum().name());
-
-
-            pstmt.executeUpdate();
-            System.out.println("Araç veritabanına kaydedildi");
-
-            araclar.add(arac);
-        }
-        catch (SQLException e){
-            System.err.println("Araç eklenirken veritabanı hatası : " + e.getMessage());
-        }
+        veriKaynagi.aracKaydet(arac);
+        araclar.add(arac);
     }
 
-    public void aracKirala(String id, int sure) throws YetersizSarjException{
-        for (Arac a : araclar){
-            if (a.aracId.equalsIgnoreCase(id)){
-                if(a.getSarjYuzdesi() < 20){
+    public void aracKirala(String id, int sure) throws YetersizSarjException {
+        for (Arac a : araclar) {
+            if (a.aracId.equalsIgnoreCase(id)) {
+                if (a.getSarjYuzdesi() < 20) {
                     a.setDurum(AracDurumu.SARJI_YETERSIZ);
-                    VeriTabaniYoneticisi.durumGuncelle(a.getAracId(), AracDurumu.SARJI_YETERSIZ);
+                    veriKaynagi.durumGuncelle(a.getAracId(), AracDurumu.SARJI_YETERSIZ);
                     throw new YetersizSarjException("Aracın şarjı %20'nin altında, kiralanamaz!");
                 }
-                if(a.getDurum() == AracDurumu.MUSAIT){
-                    System.out.println("Araç kiralandı");
-                    System.out.print("Ücret : " + a.ucretHesapla(sure));
-                    System.out.println();
+                if (a.getDurum() == AracDurumu.MUSAIT) {
+                    System.out.println("Araç kiralandı. Ücret : " + a.ucretHesapla(sure));
                     a.setDurum(AracDurumu.KIRADA);
-                    VeriTabaniYoneticisi.durumGuncelle(a.getAracId(), AracDurumu.KIRADA);
-                }
-                else {
+                    veriKaynagi.durumGuncelle(a.getAracId(), AracDurumu.KIRADA);
+                } else {
                     System.out.println("Hata : " + a.getDurum());
                 }
                 return;

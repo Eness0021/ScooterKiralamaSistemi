@@ -13,6 +13,8 @@ public abstract class Arac implements ISarjEdilebilir{
 
     public abstract double ucretHesapla(int dakika);
 
+    public abstract String getAracTipi();
+
 
     public String getAracId() {
         return aracId;

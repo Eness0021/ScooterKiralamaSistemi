@@ -21,6 +21,14 @@ public class StandartScooter extends Arac implements ISarjEdilebilir{
 
 
     @Override
+    public String getAracTipi(){
+        return "Standart";
+    }
+
+
+
+
+    @Override
     public String toString() {
         return "StandartScooter " +
                 "aracId = '" + aracId + '\'' +
