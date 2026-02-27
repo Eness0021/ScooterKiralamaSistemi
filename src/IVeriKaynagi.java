@@ -1,8 +1,8 @@
-import java.util.List;
+import java.util.Map;
 
 public interface IVeriKaynagi {
     void tabloOlustur();
-    List<Arac> verileriYukle();
+    Map<String, Arac> verileriYukle();
     void aracKaydet(Arac arac);
     void durumGuncelle(String id, AracDurumu yeniDurum);
 

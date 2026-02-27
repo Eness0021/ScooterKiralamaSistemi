@@ -63,7 +63,7 @@ public class KullaniciArayuzu {
                 --- Eklemek istediğiniz Scooter Türü ---
                 1 - Standart Scooter
                 2 - Pro Scooter
-                Seçiminiz: """);
+                Seçiminiz:""");
 
         // Fabrikadan isim sözlüğünü çekiyoruz
         String tip = ScooterFactory.getTipAdi(tur);
